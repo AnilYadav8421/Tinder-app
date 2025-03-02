@@ -19,3 +19,7 @@ how to create react app using vite
 6. Also using DaisyUI library
     - [npm i -D daisyui@latest]
     -[ @plugin "daisyui";] add this in index.css
+
+7. Now time to Routing
+    - Go for [React Router]
+    - [npm i react-router-dom]
