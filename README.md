@@ -15,3 +15,7 @@ how to create react app using vite
     - select [tailwind + vite] and follow steps as shown
     - we have already creted react app so install only Tailwind
     - in terminal [npm install -D tailwindcss postcss autoprefixer] [npx tailwindcss init -p]
+
+6. Also using DaisyUI library
+    - [npm i -D daisyui@latest]
+    -[ @plugin "daisyui";] add this in index.css
