@@ -3,10 +3,10 @@ import logo from "../assets/logo.png"
 
 const Navbar = () => {
     return (
-        <div className="navbar bg-base-300 shadow-sm">
+        <div className="navbar bg-base-300 fixed top-0 left-0 w-full shadow-md z-50 p-4">
             <div className="flex-1">
                 <a className="btn btn-ghost text-xl mx-4">
-                    <img src={logo} alt="logo" className="h-12 w-auto" />
+                    <img src={logo} alt="logo" className="h-17 w-auto" />
                 </a>
             </div>
             <div className="flex gap-2">
