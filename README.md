@@ -23,3 +23,7 @@ how to create react app using vite
 7. Now time to Routing
     - Go for [React Router]
     - [npm i react-router-dom]
+
+8. to call API we using [Axios]
+
+9. to handle CORS install [npm i cors] in backend code
