@@ -1,17 +1,29 @@
 import React, { useState } from 'react'
 import loginImg from "../assets/t-login_img.jpg"
 import axios from 'axios';
+import { useDispatch } from 'react-redux';
+import { addUser } from '../utils/userSlice';
+import { useNavigate } from 'react-router-dom';
+import { BASE_URL } from '../utils/constants';
 
 const Login = () => {
   const [emailId, setEmailId] = useState("dhoni@gmail.com");
   const [password, setPassword] = useState("Dhoni@123");
+  const dispatch = useDispatch();
+  const navigate  = useNavigate();
+
 
   const handleLogin = async () => {
     // call Api
     try {
-      await axios.post("http://localhost:3000/login", {
+      const res  = await axios.post(BASE_URL + "/login", {
         emailId, password,
-      }, {withCredentials: true});
+      }, {withCredentials: true}
+    );
+    if (res.status === 200) {
+      navigate("/feed"); // Redirect to the Feed page on successful login
+    }
+    dispatch(addUser(res.data));
     } catch (err) {
       console.error(err);
       

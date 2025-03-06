@@ -27,3 +27,9 @@ how to create react app using vite
 8. to call API we using [Axios]
 
 9. to handle CORS install [npm i cors] in backend code
+
+10. installing [Redux toolkit] to store data, For this we have to install two packages
+    - 1. redux toolkit
+    - 2. react-redux
+    - in terminal [npm i @reduxjs/toolkit react-redux]
+    - Create store.
