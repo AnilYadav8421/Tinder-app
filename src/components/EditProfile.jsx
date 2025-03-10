@@ -13,10 +13,12 @@ const EditProfile = ({ user }) => {
   const [gender, setGender] = useState(user.gender);
   const [about, setAbout] = useState(user.about);
   const [error, setError] = useState("");
+  const [success, setSuccess] = useState(false);
   const dispatch = useDispatch();
 
   const saveProfile = async () => {
     setError("") // clear error
+    setSuccess(false);
     const requestData = {
       photoUrl,
       age: Number(age),
@@ -36,13 +38,14 @@ const EditProfile = ({ user }) => {
         //  },
         { withCredentials: true });
       dispatch(addUser(res?.data?.data))
+      setSuccess(true); // Show success toast
+      setTimeout(() => setSuccess(false), 3000);
     } catch (err) {
       setError(err.response?.data?.message || "An error occurred");
     }
   }
   return (
     <div className='flex justify-center my-10'>
-      
       <div className='flex justify-center items-center min-h-screen px-4 mx-10'>
         <div className="card card-side bg-base-100 shadow-2xl w-[90%] md:w-[500px] lg:w-[600px] h-auto p-6">
           <div className="card-body ">
@@ -92,7 +95,18 @@ const EditProfile = ({ user }) => {
         </div>
       </div>
       <UserCard user={{ firstName, lastName, photoUrl, age, gender, about }} />
+
+      {success && (
+        <div className=" fixed top-5 right-5 z-50">
+          <div className="toast toast-top toast-end">
+          <div className="alert alert-success">
+            <span>Update successfully.</span>
+          </div>
+        </div>
+        </div>
+      )}
     </div>
+    
   )
 }
 
