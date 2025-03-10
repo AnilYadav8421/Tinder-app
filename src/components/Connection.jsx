@@ -31,7 +31,6 @@ const Connection = () => {
 
                     return (
                         <div key={index} className="bg-white shadow-md rounded-lg p-3 flex flex-col items-center w-[250px]">
-
                             <img
                                 alt='photo' src={photoUrl}
                                 className="bg-white shadow-lg rounded-lg p-4 flex flex-col items-center space-y-3"
