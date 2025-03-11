@@ -8,6 +8,14 @@ const Request = () => {
   const requests = useSelector((store)=> store.requests);
     const dispatch = useDispatch();
 
+    const reviewRequest = async (status, _id) => {
+      try {
+        const res = axios.post(BASE_URL+ "/request/review/"+status+ "/"+_id, {}, {withCredentials: true});
+      } catch (error) {
+        
+      }
+    }
+
     const fetchRequest = async () => {
         try {
             const res = await axios.get(BASE_URL+ "/user/requests/recevied", {withCredentials: true});
@@ -21,7 +29,7 @@ const Request = () => {
     }, [])
     
     if (!requests || requests.length === 0 ){
-      return <h1 className="text-center mt-10 text-xl">No Requests Found</h1>;
+      return <h1 className="text-center mt-20 text-xl">No Requests Found</h1>;
     }
 
   return (
@@ -44,8 +52,8 @@ const Request = () => {
                             <p className="text-gray-500 text-center">{age} years old, {gender}</p>
                             <p className='text-sm text-gray-700 text-center py-2'>{about}</p>
                             <div className="flex space-x-2 mt-2">
-                                <button className="px-3 py-1 text-xs bg-red-500 text-white rounded-lg">Ignore</button>
-                                <button className="px-3 py-1 text-xs bg-green-500 text-white rounded-lg">Interested</button>
+                                <button className="px-3 py-1 text-xs bg-red-500 text-white rounded-lg"onClick={()=> reviewRequest("rejected", request._id)}>Reject</button>
+                                <button className="px-3 py-1 text-xs bg-green-500 text-white rounded-lg" onClick={()=> reviewRequest("accepted", request._id)}>Accept</button>
                             </div>
                         </div>
                     )
