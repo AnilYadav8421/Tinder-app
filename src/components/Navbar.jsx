@@ -7,8 +7,6 @@ import { BASE_URL } from "../utils/constants";
 import { removeUser } from "../utils/userSlice";
 
 const Navbar = () => {
-
-
   const user = useSelector((store) => store.user);
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -19,7 +17,7 @@ const Navbar = () => {
       dispatch(removeUser());
       return navigate("/login")
     } catch (err) {
-      // 
+      console.error("Logout error:", err);
     }
   }
   return (
