@@ -3,6 +3,7 @@ import React, { useEffect } from 'react'
 import { BASE_URL } from '../utils/constants'
 import { useDispatch, useSelector } from 'react-redux'
 import { addRequest } from '../utils/requestSlice'
+import { removeRequest } from '../utils/requestSlice'
 
 const Request = () => {
   const requests = useSelector((store)=> store.requests);
@@ -11,8 +12,9 @@ const Request = () => {
     const reviewRequest = async (status, _id) => {
       try {
         const res = axios.post(BASE_URL+ "/request/review/"+status+ "/"+_id, {}, {withCredentials: true});
+        dispatch(removeRequest(_id));
       } catch (error) {
-        
+        console.error("Error reviewing request:", error);
       }
     }
 
