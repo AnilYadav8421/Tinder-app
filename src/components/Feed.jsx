@@ -10,6 +10,7 @@ const Feed = () => {
   const feed = useSelector((store) => store.feed);
 
   const getFeed = async () => {
+
     // if (feed) return;
     try {
       const res = await axios.get(`${BASE_URL}/feed?page=1&limit=10`, { withCredentials: true });
@@ -23,6 +24,7 @@ const Feed = () => {
   useEffect(() => {
     getFeed();
   }, [])
+  if(feed.length <= 0) return <h1 className='mt-20'>No New Users Found</h1>
 
   return (
     Array.isArray(feed) && feed.length > 0 ? (
