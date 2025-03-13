@@ -25,7 +25,7 @@ const Navbar = () => {
       {/* Left Side: Logo */}
       <div className="flex-1">
         <Link to={"/"} className="btn btn-ghost text-xl mx-4">
-          <img src={logo} alt="logo" className="h-16 w-auto" />
+          <img src={logo} alt="logo" className="h-8 w-auto" />
         </Link>
       </div>
 
