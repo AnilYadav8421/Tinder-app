@@ -16,29 +16,29 @@ const Login = () => {
   const [error, setError] = useState("");
   const [isLoginForm, setIsLoginForm] = useState(false);
   const dispatch = useDispatch();
-  const navigate  = useNavigate();
+  const navigate = useNavigate();
 
 
   const handleLogin = async () => {
     // call Api
     try {
-      const res  = await axios.post(BASE_URL + "/login", {
+      const res = await axios.post(BASE_URL + "/login", {
         emailId, password,
-      }, {withCredentials: true}
-    );
-    if (res.status === 200) {
-      navigate("/feed"); // Redirect to the Feed page on successful login
-    }
-    dispatch(addUser(res.data));
+      }, { withCredentials: true }
+      );
+      if (res.status === 200) {
+        navigate("/feed"); // Redirect to the Feed page on successful login
+      }
+      dispatch(addUser(res.data));
     } catch (err) {
       setError(err?.response?.data || "Something went wrong");
       console.error();
-      
+
     }
   }
   const handleSignUp = async () => {
     try {
-      const res = await axios.post(BASE_URL + "/signup", {firstName, lastName, emailId, password}, {withCredentials: true});
+      const res = await axios.post(BASE_URL + "/signup", { firstName, lastName, emailId, password }, { withCredentials: true });
       dispatch(addUser(res.data.data));
       return navigate("/profile")
     } catch (err) {
@@ -46,82 +46,69 @@ const Login = () => {
     }
   }
   return (
-    <div 
-      className="flex flex-col items-center justify-center min-h-screen bg-cover bg-center relative"
+    <div className="flex items-center justify-center min-h-screen bg-cover bg-center px-4 md:px-0"
       style={{ backgroundImage: `url(${bgImage})` }}>
 
       {/* Gradient Overlay */}
       <div className="absolute inset-0 bg-gradient-to-b from-[#040404] to-[#d2d2d1] opacity-40"></div>
 
-      <div className="card card-side bg-base-100 shadow-2xl w-[750px] h-[500px]">
-        <figure>
-          <img src={loginImg} alt="loginImg" className='w-80 h-auto object-cover ' />
-        </figure>
-        <div className="card-body">
-          <h2 className="card-title text-2.5xl">{isLoginForm ? "Login" : "Signup"}</h2>
+      {/* Card Container */}
+      <div className="relative z-10 bg-white shadow-2xl rounded-lg p-6 md:p-8 w-full max-w-sm md:max-w-md lg:max-w-lg">
 
+        {/* Title */}
+        <div className="text-center">
+          <h1 className="text-2xl font-bold">{isLoginForm ? "Log in to Tinder" : "Create a new account"}</h1>
+          <p className="text-gray-500 text-sm mt-1">It's quick and easy.</p>
+        </div>
+
+        {/* Form Fields */}
+        <div className="mt-6 flex flex-col gap-4">
           {!isLoginForm && (
             <>
-              <div>
-                <fieldset className="fieldset">
-                  <legend className="fieldset-legend">First Name</legend>
-                  <input type="text"
-                    value={firstName} className="input" placeholder="Type here" 
-                    onChange={(e) => setFirstName(e.target.value)} />
-                </fieldset>
-              </div>
-              <div>
-                <fieldset className="fieldset">
-                  <legend className="fieldset-legend">Last Name</legend>
-                  <input type="text"
-                    value={lastName} className="input" placeholder="Type here" 
-                    onChange={(e) => setLastName(e.target.value)} />
-                </fieldset>
-              </div>
+              <input type="text" value={firstName} placeholder="First Name"
+                className="input w-full p-2 border border-gray-300 rounded-lg"
+                onChange={(e) => setFirstName(e.target.value)} />
+              <input type="text" value={lastName} placeholder="Last Name"
+                className="input w-full p-2 border border-gray-300 rounded-lg"
+                onChange={(e) => setLastName(e.target.value)} />
             </>
           )}
 
-          <div>
-            <fieldset className="fieldset">
-              <legend className="fieldset-legend">Email ID</legend>
-              <input type="text"
-                value={emailId} className="input" placeholder="Type here" 
-                onChange={(e) => setEmailId(e.target.value)} />
-            </fieldset>
-          </div>
-          <div>
-            <fieldset className="fieldset">
-              <legend className="fieldset-legend">Password</legend>
-              <input type="password"
-                value={password} className="input" placeholder="Type here" 
-                onChange={(e) => setPassword(e.target.value)} />
-            </fieldset>
-          </div>
+          <input type="email" value={emailId} placeholder="Email ID"
+            className="input w-full p-2 border border-gray-300 rounded-lg"
+            onChange={(e) => setEmailId(e.target.value)} />
 
-          <div>
-            <fieldset className="fieldset bg-base-100 border border-base-300 rounded-box w-64">
-              <label className="fieldset-label">
-                <input type="checkbox" defaultChecked className="checkbox" />
-                Remember me
-              </label>
-            </fieldset>
-          </div>
+          <input type="password" value={password} placeholder="Password"
+            className="input w-full p-2 border border-gray-300 rounded-lg"
+            onChange={(e) => setPassword(e.target.value)} />
 
-          <p className='text-red-700 text-1xl'>{error}</p>
+          {/* Remember Me Checkbox */}
+          <label className="flex items-center space-x-2 text-sm text-gray-600">
+            <input type="checkbox" defaultChecked className="checkbox" />
+            <span>Remember me</span>
+          </label>
 
-          <div className="card-actions justify-center py-2">
-            <button className="btn bg-black text-white w-64 h-[38px]" 
-              onClick={isLoginForm ? handleLogin : handleSignUp}>
-              {isLoginForm ? "Login" : "Sign Up"}
-            </button>
-            <p className='cursor-pointer' 
-              onClick={() => setIsLoginForm((value) => !value)}>
-              {isLoginForm ? "New User? SignUp here" : "Already have an account? Login here"}
-            </p>
-          </div>
+          {/* Error Message */}
+          {error && <p className="text-red-600 text-sm">{error}</p>}
+
+          {/* Button */}
+          <button className="w-full py-2 text-white text-sm 
+        bg-gradient-to-r from-[#fd5564] to-[#ef4a75] 
+        rounded-full shadow-lg hover:opacity-80 transition"
+            onClick={isLoginForm ? handleLogin : handleSignUp}>
+            {isLoginForm ? "Login" : "Sign Up"}
+          </button>
+
+          {/* Toggle Form Link */}
+          <p className="text-center text-md text-blue-700 mt-2 cursor-pointer"
+            onClick={() => setIsLoginForm((value) => !value)}>
+            {isLoginForm ? "Sign up for Tinder" : "Already have an account?"}
+          </p>
         </div>
       </div>
     </div>
+
+
   );
 };
 
