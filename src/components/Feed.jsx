@@ -24,16 +24,23 @@ const Feed = () => {
   useEffect(() => {
     getFeed();
   }, [])
-  if(feed.length <= 0) return <h1 className='mt-20'>No New Users Found</h1>
+  // 🛑 No Users Found UI
+  if (feed.length <= 0)
+    return (
+      <div className="flex flex-col items-center justify-center min-h-screen text-center px-4">
+        <h1 className="text-2xl sm:text-3xl font-bold text-gray-700 mt-20 animate-fadeIn">
+          No New Users Found
+        </h1>
+        <p className="text-gray-500 mt-2 text-sm sm:text-base">
+          Try updating your search preferences or check back later.
+        </p>
+      </div>
+    );
 
   return (
-    Array.isArray(feed) && feed.length > 0 ? (
-      <div className='pt-30 flex justify-center items-center'>
-        <UserCard user={feed[0]} />
-      </div>
-    ) : (
-      <div className="pt-40 text-center">No Users Found</div>
-    )
+    <div className="flex justify-center items-center min-h-screen pt-20">
+      <UserCard user={feed[0]} />
+    </div>
   )
 }
 

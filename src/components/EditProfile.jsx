@@ -28,14 +28,6 @@ const EditProfile = ({ user }) => {
     };
     try {
       const res = await axios.patch(`${BASE_URL}/profile/edit`, requestData,
-        // {
-        //   firstName, 
-        //   lastName, 
-        //   photoUrl, 
-        //   age: Number(age), 
-        //   gender, about,
-        //   skills: user.skills || []
-        //  },
         { withCredentials: true });
       dispatch(addUser(res?.data?.data))
       setSuccess(true); // Show success toast
@@ -45,68 +37,93 @@ const EditProfile = ({ user }) => {
     }
   }
   return (
-    <div className='flex justify-center my-10'>
-      <div className='flex justify-center items-center min-h-screen px-4 mx-10'>
-        <div className="card card-side bg-base-100 shadow-2xl w-[90%] md:w-[500px] lg:w-[600px] h-auto p-6">
-          <div className="card-body ">
-            <h2 className="card-title text-3xl flex  justify-center">Edit Profile</h2>
-            <div className='flex  justify-center'>
-              <fieldset className="fieldset ">
-                <legend className="fieldset-legend">First Name</legend>
-                <input type="text" value={firstName} className="input w-[90%] md:w-[500px]" placeholder="Type here" onChange={(e) => setFirstName(e.target.value)} />
-              </fieldset>
-            </div>
-            <div className='flex  justify-center'>
-              <fieldset className="fieldset">
-                <legend className="fieldset-legend">Last Name</legend>
-                <input type="text" value={lastName} className="input w-[90%] md:w-[500px]" placeholder="Type here" onChange={(e) => setLastName(e.target.value)} />
-              </fieldset>
-            </div>
-            <div className='flex  justify-center'>
-              <fieldset className="fieldset">
-                <legend className="fieldset-legend">Photo Url</legend>
-                <input type="text" value={photoUrl} className="input w-[90%] md:w-[500px]" placeholder="Type here" onChange={(e) => setPhotoUrl(e.target.value)} />
-              </fieldset>
-            </div>
-            <div className='flex  justify-center'>
-              <fieldset className="fieldset ">
-                <legend className="fieldset-legend">Age</legend>
-                <input type='number' value={age} className="input w-[90%] md:w-[500px]" placeholder="Type here" onChange={(e) => setAge(e.target.value)} />
-              </fieldset>
-            </div>
-            <div className='flex  justify-center'>
-              <fieldset className="fieldset">
-                <legend className="fieldset-legend">Gender</legend>
-                <input type="text" value={gender} className="input w-[90%] md:w-[500px]" placeholder="Type here" onChange={(e) => setGender(e.target.value)} />
-              </fieldset>
-            </div>
-            <div className='flex  justify-center'>
-              <fieldset className="fieldset">
-                <legend className="fieldset-legend">About</legend>
-                <input type="text" value={about} className="input w-[90%] md:w-[500px]" placeholder="Type here" onChange={(e) => setAbout(e.target.value)} />
-              </fieldset>
-            </div>
-            {error && <div className="text-red-500">ERROR : {error}
-            </div>}
-            <div className="card-actions justify-center py-2">
-              <button className="btn bg-black text-white w-64 h-[38px]" onClick={saveProfile}>Update</button>
-            </div>
-          </div>
+    <div className="flex flex-col items-center justify-center min-h-screen px-4 py-10">
+      <div className="bg-white shadow-2xl rounded-xl w-full max-w-md sm:max-w-lg md:max-w-xl lg:max-w-2xl p-6">
+        <h2 className="text-3xl font-bold text-center mb-6">Edit Profile</h2>
+
+        <div className="flex flex-col items-center mb-6">
+          <img
+            src={photoUrl || "https://via.placeholder.com/150"}
+            alt="Profile"
+            className="w-28 h-28 sm:w-32 sm:h-32 rounded-full border-4 border-gray-300 object-cover"
+          />
+          <input
+            type="text"
+            value={photoUrl}
+            className="mt-3 input input-bordered w-full text-center"
+            placeholder="Enter Photo URL"
+            onChange={(e) => setPhotoUrl(e.target.value)}
+          />
+        </div>
+
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+          <input
+            type="text"
+            value={firstName}
+            className="input input-bordered w-full"
+            placeholder="First Name"
+            onChange={(e) => setFirstName(e.target.value)}
+          />
+          <input
+            type="text"
+            value={lastName}
+            className="input input-bordered w-full"
+            placeholder="Last Name"
+            onChange={(e) => setLastName(e.target.value)}
+          />
+          <input
+            type="number"
+            value={age}
+            className="input input-bordered w-full"
+            placeholder="Age"
+            onChange={(e) => setAge(e.target.value)}
+          />
+          <select
+            value={gender}
+            className="input input-bordered w-full"
+            onChange={(e) => setGender(e.target.value)}
+          >
+            <option value="">Select Gender</option>
+            <option value="male">male</option>
+            <option value="female">female</option>
+          </select>
+        </div>
+
+        <div className="mt-4">
+          <textarea
+            value={about}
+            className="textarea textarea-bordered w-full"
+            placeholder="Write something about yourself..."
+            rows={3}
+            onChange={(e) => setAbout(e.target.value)}
+          />
+        </div>
+
+        {error && <div className="text-red-500 text-center mt-2">ERROR: {error}</div>}
+
+        <div className="flex justify-center mt-6">
+          <button className="btn btn-primary w-full max-w-xs" onClick={saveProfile}>
+            Update Profile
+          </button>
         </div>
       </div>
-      <UserCard user={{ firstName, lastName, photoUrl, age, gender, about }} />
 
+      {/* Live Preview */}
+      <div className="mt-10">
+        <UserCard user={{ firstName, lastName, photoUrl, age, gender, about }} />
+      </div>
+
+      {/* Success Toast */}
       {success && (
-        <div className=" fixed top-5 right-5 z-50">
+        <div className="fixed top-5 right-5 z-50">
           <div className="toast toast-top toast-end">
-          <div className="alert alert-success">
-            <span>Update successfully.</span>
+            <div className="alert alert-success">
+              <span>Profile Updated Successfully!</span>
+            </div>
           </div>
-        </div>
         </div>
       )}
     </div>
-    
   )
 }
 
