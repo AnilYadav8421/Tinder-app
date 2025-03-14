@@ -5,6 +5,7 @@ import axios from 'axios';
 import { BASE_URL } from '../utils/constants';
 import { useDispatch, useSelector } from 'react-redux';
 import { addUser } from '../utils/userSlice';
+import Footer from './Footer';
 
 const Body = () => {
     const navigate = useNavigate();
@@ -39,6 +40,7 @@ const Body = () => {
         <div>
             {location.pathname !== "/" && <Navbar />} {/* Hide Navbar on Home */}
             <Outlet />
+            <Footer/>
         </div>
     );
 };
