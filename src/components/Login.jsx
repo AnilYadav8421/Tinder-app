@@ -1,5 +1,4 @@
 import React, { useState } from 'react'
-import loginImg from "../assets/t-login_img.jpg"
 import axios from 'axios';
 import { useDispatch } from 'react-redux';
 import { addUser } from '../utils/userSlice';
