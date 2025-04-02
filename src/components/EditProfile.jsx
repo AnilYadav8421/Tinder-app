@@ -17,6 +17,7 @@ const EditProfile = ({ user }) => {
   const dispatch = useDispatch();
 
   const saveProfile = async () => {
+    console.log("🚀 saveProfile function called!"); // ✅ Debug log
     setError("");
     setSuccess(false);
 
@@ -35,6 +36,8 @@ const EditProfile = ({ user }) => {
       skills: user.skills || [],
     };
 
+    console.log("🛠 Request Data:", requestData); // ✅ Debug log
+
     try {
       const res = await axios.patch(`${BASE_URL}/profile/edit`, requestData, {
         withCredentials: true,
@@ -44,10 +47,12 @@ const EditProfile = ({ user }) => {
         },
       });
 
+      console.log("✅ API Response:", res.data); // ✅ Debug log
       dispatch(addUser(res?.data?.data));
       setSuccess(true);
       setTimeout(() => setSuccess(false), 3000);
     } catch (err) {
+      console.error("❌ Axios Error:", err); // ✅ Debug log
       setError(err.response?.data?.message || "An error occurred");
     }
   };
