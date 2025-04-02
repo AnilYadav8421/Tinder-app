@@ -19,31 +19,57 @@ const Login = () => {
 
 
   const handleLogin = async () => {
-    // call Api
     try {
-      const res = await axios.post(BASE_URL + "/login", {
-        emailId, password,
-      }, { withCredentials: true }
-      );
-      if (res.status === 200) {
-        navigate("/feed"); // Redirect to the Feed page on successful login
+      const res = await axios.post(`${BASE_URL}/login`, { emailId, password }, { withCredentials: true });
+  
+      console.log("✅ Login Successful:", res.data); // Debugging log
+  
+      // ✅ Store token in localStorage
+      if (res.data.token) {
+        localStorage.setItem("token", res.data.token);
+      } else {
+        console.warn("⚠️ No token received from backend!");
       }
-      dispatch(addUser(res.data));
+  
+      // ✅ Store user in Redux
+      dispatch(addUser(res.data.user));
+  
+      // ✅ Redirect to Feed page
+      if (res.status === 200) {
+        navigate("/feed");
+      }
+  
     } catch (err) {
       setError(err?.response?.data || "Something went wrong");
-      console.error();
-
+      console.error("❌ Login Error:", err);
     }
-  }
+  };
+  
   const handleSignUp = async () => {
     try {
-      const res = await axios.post(BASE_URL + "/signup", { firstName, lastName, emailId, password }, { withCredentials: true });
-      dispatch(addUser(res.data.data));
-      return navigate("/profile")
+      const res = await axios.post(`${BASE_URL}/signup`, { firstName, lastName, emailId, password }, { withCredentials: true });
+  
+      console.log("✅ Signup Successful:", res.data); // Debugging log
+  
+      // ✅ Store token in localStorage
+      if (res.data.token) {
+        localStorage.setItem("token", res.data.token);
+      } else {
+        console.warn("⚠️ No token received from backend!");
+      }
+  
+      // ✅ Store user in Redux
+      dispatch(addUser(res.data.user));
+  
+      // ✅ Redirect to profile page
+      navigate("/profile");
+  
     } catch (err) {
-      console.error("Error" + err)
+      console.error("❌ Signup Error:", err);
+      setError("Signup failed. Please try again.");
     }
-  }
+  };
+  
   return (
     <div className="flex items-center justify-center min-h-screen bg-cover bg-center px-4 md:px-0"
       style={{ backgroundImage: `url(${bgImage})` }}>
