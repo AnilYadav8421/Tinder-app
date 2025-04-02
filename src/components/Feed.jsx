@@ -11,9 +11,13 @@ const Feed = () => {
 
   const getFeed = async () => {
 
-    // if (feed) return;
+    if (feed) return;
     try {
-      const res = await axios.get(`${BASE_URL}/feed?page=1&limit=10`, { withCredentials: true });
+      const res = await axios.get(`${BASE_URL}/feed?page=1&limit=10`, {
+        headers:{
+          "Content-Type": "application/json" ,
+        }, 
+         withCredentials: true });
       dispatch(addfeed(res.data));
 
     } catch (error) {
