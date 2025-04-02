@@ -1,9 +1,9 @@
-import React, { useState } from 'react'
-import UserCard from './UserCard';
-import axios from 'axios';
-import { BASE_URL } from '../utils/constants';
-import { useDispatch } from 'react-redux';
-import { addUser } from '../utils/userSlice';
+import React, { useState } from "react";
+import UserCard from "./UserCard";
+import axios from "axios";
+import { BASE_URL } from "../utils/constants";
+import { useDispatch } from "react-redux";
+import { addUser } from "../utils/userSlice";
 
 const EditProfile = ({ user }) => {
   const [firstName, setFirstName] = useState(user.firstName);
@@ -17,25 +17,41 @@ const EditProfile = ({ user }) => {
   const dispatch = useDispatch();
 
   const saveProfile = async () => {
-    setError("") // clear error
+    setError("");
     setSuccess(false);
+
+    const token = localStorage.getItem("token"); // ✅ Get token
+
+    if (!token) {
+      setError("No auth token found. Please log in again.");
+      return;
+    }
+
     const requestData = {
       photoUrl,
       age: Number(age),
       gender,
       about,
-      skills: user.skills || []
+      skills: user.skills || [],
     };
+
     try {
-      const res = await axios.patch(`${BASE_URL}/profile/edit`, requestData,
-        { withCredentials: true });
-      dispatch(addUser(res?.data?.data))
-      setSuccess(true); // Show success toast
+      const res = await axios.patch(`${BASE_URL}/profile/edit`, requestData, {
+        withCredentials: true,
+        headers: {
+          Authorization: `Bearer ${token}`, // ✅ Send token
+          "Content-Type": "application/json",
+        },
+      });
+
+      dispatch(addUser(res?.data?.data));
+      setSuccess(true);
       setTimeout(() => setSuccess(false), 3000);
     } catch (err) {
       setError(err.response?.data?.message || "An error occurred");
     }
-  }
+  };
+
   return (
     <div className="flex flex-col items-center justify-center min-h-screen px-4 py-10">
       <div className="bg-white shadow-2xl rounded-xl w-full max-w-md sm:max-w-lg md:max-w-xl lg:max-w-2xl p-6">
@@ -84,8 +100,8 @@ const EditProfile = ({ user }) => {
             onChange={(e) => setGender(e.target.value)}
           >
             <option value="">Select Gender</option>
-            <option value="male">male</option>
-            <option value="female">female</option>
+            <option value="male">Male</option>
+            <option value="female">Female</option>
           </select>
         </div>
 
@@ -124,7 +140,7 @@ const EditProfile = ({ user }) => {
         </div>
       )}
     </div>
-  )
-}
+  );
+};
 
-export default EditProfile
+export default EditProfile;
